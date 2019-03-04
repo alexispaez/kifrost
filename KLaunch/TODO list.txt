@@ -1,0 +1,45 @@
+﻿Enhancements:
+-------------
+Scripts:
+Get and send files with KCML method
+Exception if some connection data is missing 
+Modify execution speed 25% - 150%
+Use process id for robustness
+Add progress form and execution control Pause/Stop/Restart
+
+Connections list sorted by recent or frequent usage?
+
+Next version:
+-------------
+Script execution
+	Overhaul to make scripts customisable by the user
+Add custom buttons with shortcuts or scripts
+	Button to connection manager page
+	Button to connect to Daisy
+	Button to open QA Excel
+	Other useful connections?
+Add parameters
+	Main picture path, with dynamic main picture loading
+	KClient paths from registry or select in the man form, Excel to override it
+	Why double back slash needed?
+	Add parameter for connections file editor
+
+Nice to have:
+-------------
+Format Connection dropdown in columns
+	Use multicolumn example
+
+General:
+--------
+Create Git repository
+Create installer
+	Check for updates?
+
+KCML Projects:
+--------------
+Start with a project component list, get from MSRM?
+Edit file with file editor
+Get file with KCML method
+	Program files, save ascii and get .src
+Other file actions
+
