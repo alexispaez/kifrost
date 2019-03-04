@@ -20,24 +20,24 @@ namespace KLaunch
         // Window message codes
         public const uint WM_CLOSE = 0x0010;
         public const uint WM_CHAR = 0x0102;
-
         // Button control messages
         public const uint BM_CLICK = 0x00F5;
 
+        // API imports
         [DllImport("User32.dll")]
         public static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
 
         [DllImport("User32.dll")]
-        public static extern bool CloseWindow(int hWnd);
+        protected static extern bool CloseWindow(int hWnd);
 
         [DllImport("User32.dll")]
-        public static extern bool EnumWindows(Delegate lpEnumFunc, int lParam);
+        protected static extern bool EnumWindows(Delegate lpEnumFunc, int lParam);
 
         [DllImport("User32.dll")]
-        public static extern bool EnumChildWindows(int hWnd, Delegate lpEnumFunc, int lParam);
+        protected static extern bool EnumChildWindows(int hWnd, Delegate lpEnumFunc, int lParam);
 
         [DllImport("User32.dll")]
-		public static extern int FindWindow(string lpClassName, string lpWindowName);
+        protected static extern int FindWindow(string lpClassName, string lpWindowName);
 
         // Return Value
         // Type: HWND
@@ -46,7 +46,7 @@ namespace KLaunch
         public static extern int GetActiveWindow();
 
         [DllImport("User32.dll")]
-        public static extern int GetClassName(int hWnd, StringBuilder s, int nMaxCount);
+        protected static extern int GetClassName(int hWnd, StringBuilder s, int nMaxCount);
 
         [DllImport("Kernel32.dll")]
         public static extern uint GetCurrentThreadId();
@@ -55,21 +55,21 @@ namespace KLaunch
         public static extern uint GetWindowThreadProcessId(int hWnd, int ProcessId);
 
         [DllImport("User32.dll")]
-		public static extern int GetWindowText(int hWnd, StringBuilder s, int nMaxCount);
+        protected static extern int GetWindowText(int hWnd, StringBuilder s, int nMaxCount);
 
         [DllImport("User32.dll")]
-        public static extern bool IsWindow(int hWnd);
+        protected static extern bool IsWindow(int hWnd);
 
         [DllImport("User32.dll")]
-        public static extern bool IsWindowEnabled(int hWnd);
+        protected static extern bool IsWindowEnabled(int hWnd);
 
         [DllImport("user32.dll")]
-        public static extern bool PostMessage(int hWnd, uint Msg, int wParam, int lParam);
+        protected static extern bool PostMessage(int hWnd, uint Msg, int wParam, int lParam);
 
         [DllImport("User32.dll")]
-        public static extern int SetFocus(int hWnd);
+        protected static extern int SetFocus(int hWnd);
 
         [DllImport("User32.dll")]
-		public static extern int SetForegroundWindow(int hWnd);
+        public static extern int SetForegroundWindow(int hWnd);
 	}
 }

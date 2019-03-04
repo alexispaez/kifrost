@@ -1,18 +1,19 @@
 ﻿Enhancements:
 -------------
 Scripts:
-Get and send files with KCML method
-Exception if some connection data is missing 
-Modify execution speed 25% - 150%
-Use process id for robustness
-Add progress form and execution control Pause/Stop/Restart
-
-Connections list sorted by recent or frequent usage?
+Get and send files with KCML method, raise an exception if some connection data is missing 
 
 Next version:
 -------------
 Script execution
+	Move SendKey.Send to Automate, revise all access modifiers in WinApi
 	Overhaul to make scripts customisable by the user
+	Add progress form, thread and execution control with Pause/Stop/Restart
+	Modify execution speed 25% - 150%
+	Use process id for robustness
+
+Connections list sorted by recent or frequent usage?
+
 Add custom buttons with shortcuts or scripts
 	Button to connection manager page
 	Button to connect to Daisy
@@ -31,7 +32,7 @@ Format Connection dropdown in columns
 
 General:
 --------
-Create Git repository
+Create Git remote repository
 Create installer
 	Check for updates?
 

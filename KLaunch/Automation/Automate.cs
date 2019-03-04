@@ -16,7 +16,7 @@ namespace KLaunch
 	/// <summary>
 	/// Description of WindowFinder.
 	/// </summary>
-	public class Automate
+	public class Automate : WinApi
 	{
         // TODO Add focus or bring to front command to the send keys methods
 
