@@ -39,9 +39,15 @@ namespace KLaunch
         [DllImport("User32.dll")]
         protected static extern int FindWindow(string lpClassName, string lpWindowName);
 
+        // GetActiveWindow
         // Return Value
         // Type: HWND
         // The return value is the handle to the active window attached to the calling thread's message queue. Otherwise, the return value is NULL.
+        /* The active window(the result of GetActiveWindow()) is the window attached to the calling thread that gets input.
+         * The foreground window (the result of of GetForegroundWindow()) is the window that's currently getting input regardless of its relationship to the calling thread. 
+         * The active window is essentially localized to your application; the foreground window is global to the system.
+         * For example, if a window belonging to another process is the foreground, calling GetActiveWindow() from within your own process will return NULL.
+         * */
         [DllImport("User32.dll")]
         public static extern int GetActiveWindow();
 

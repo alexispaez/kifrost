@@ -19,7 +19,7 @@ namespace KLaunch.Scripts
             return "This script sends a CONTROL-BREAK sequence to the first Autoline pack it finds.";
         }
 
-        public void Run(int hWndMain, KConnection connection, KConnection destination, Form parent)
+        public void Run(int hWndMain, Automate automate, KConnection connection, KConnection destination, Form parent)
         {
             do
             {
@@ -60,7 +60,7 @@ namespace KLaunch.Scripts
                 WinApi.SetForegroundWindow(hWnd);
 
                 Thread.Sleep(500);
-                SendKeys.Send("^{BREAK}");
+                automate.Send("^{BREAK}");
             } while (false);
         }
     }

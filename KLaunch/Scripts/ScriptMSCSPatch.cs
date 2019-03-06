@@ -19,7 +19,7 @@ namespace KLaunch.Scripts
             return "This script automatically open the MSCS patching program and populates the host detail fields with the selected destination data. It requires selecting a destination.";
         }
 
-        public void Run(int hWndMain, KConnection connection, KConnection destination, Form parent)
+        public void Run(int hWndMain, Automate automate, KConnection connection, KConnection destination, Form parent)
         {
             do
             {

@@ -8,7 +8,7 @@ namespace KLaunch.Scripts
 {
     public interface Script
     {
-        void Run(int hWnd, KConnection connection, KConnection destination, Form parent);
+        void Run(int hWnd, Automate automate, KConnection connection, KConnection destination, Form parent);
         bool TakesDestination();
         string GetNotes();
     }

@@ -374,7 +374,9 @@ namespace KLaunch
         private void RunScript(int hWnd, Script script, Form parent)
         {
             panel1.Text = "Executing script " + script.ToString();
-            script.Run(hWnd, (KConnection)comboBoxConnections.SelectedItem, (KConnection)comboBoxDestinations.SelectedItem, parent);
+
+            Automate automate = new Automate();
+            script.Run(hWnd, automate, (KConnection)comboBoxConnections.SelectedItem, (KConnection)comboBoxDestinations.SelectedItem, parent);
         }
 
         private void CreateStatusBar()

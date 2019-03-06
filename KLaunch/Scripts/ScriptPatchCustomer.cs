@@ -14,7 +14,7 @@ namespace KLaunch.Scripts
             return "This script automatically opens the customer patch program.";
         }
 
-        public void Run(int hWndMain, KConnection connection, KConnection destination, Form parent)
+        public void Run(int hWndMain, Automate automate, KConnection connection, KConnection destination, Form parent)
         {
             do
             {
@@ -26,17 +26,17 @@ namespace KLaunch.Scripts
                 if (hControlUtilities == 0)
                 {
                     Thread.Sleep(300);
-                    SendKeys.Send("%(u)");
+                    automate.Send("%(u)");
 
                     int hControlList = Automate.ControlGetHandle(hWnd, "ListBox_Class", "");
                     if (hControlList == 0) break;
 
                     Thread.Sleep(200);
 
-                    SendKeys.Send("p");
+                    automate.Send("p");
                     Thread.Sleep(200);
 
-                    SendKeys.Send("p");
+                    automate.Send("p");
                     Thread.Sleep(200);
 
                     int hControlOk = Automate.ControlGetHandle(hWnd, "KCMLButton_32", "OK");
@@ -59,10 +59,10 @@ namespace KLaunch.Scripts
                     if (hControlList == 0) break;
 
                     Thread.Sleep(200);
-                    SendKeys.Send("p");
+                    automate.Send("p");
 
                     Thread.Sleep(200);
-                    SendKeys.Send("p");
+                    automate.Send("p");
 
                     int hControlOk = Automate.ControlGetHandle(hWndUtilities, "KCMLButton_32", "OK");
                     if (hControlOk == 0) break;

@@ -19,7 +19,7 @@ namespace KLaunch.Scripts
             return "This script automatically opens the CVS interface.";
         }
 
-        public void Run(int hWndMain, KConnection connection, KConnection destination, Form parent)
+        public void Run(int hWndMain, Automate automate, KConnection connection, KConnection destination, Form parent)
         {
             do
             {
@@ -31,14 +31,14 @@ namespace KLaunch.Scripts
                 if (hControlUtilities == 0)
                 {
                     Thread.Sleep(300);
-                    SendKeys.Send("%(u)");
+                    automate.Send("%(u)");
 
                     int hControlList = Automate.ControlGetHandle(hWnd, "ListBox_Class", "");
                     if (hControlList == 0) break;
 
                     Thread.Sleep(200);
 
-                    SendKeys.Send("c");
+                    automate.Send("c");
                     //Automate.SendChar(hControlList, 'c');
 
                     Thread.Sleep(200);
@@ -64,7 +64,7 @@ namespace KLaunch.Scripts
 
                     Thread.Sleep(200);
 
-                    SendKeys.Send("c");
+                    automate.Send("c");
                     //Automate.SendChar(hControlList, 'c');
 
                     Thread.Sleep(200);

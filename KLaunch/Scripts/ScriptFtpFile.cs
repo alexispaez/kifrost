@@ -21,7 +21,7 @@ namespace KLaunch
             return s.GetHashCode();
         }
 
-        public void Run(int hWnd, KConnection connection, KConnection destination, Form parent)
+        public void Run(int hWnd, Automate automate, KConnection connection, KConnection destination, Form parent)
         {
             //int hash = Get16BitHash("26/10/18");
 

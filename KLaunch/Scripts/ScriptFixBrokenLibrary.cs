@@ -30,22 +30,9 @@ namespace KLaunch.Scripts
             return result;
         }
 
-        public void Run(int hWndMain, KConnection connection, KConnection destination, Form parent)
+        public void Run(int hWndMain, Automate automate, KConnection connection, KConnection destination, Form parent)
         {
             string password;
-
-            // Get delay values from parameters
-            int shortDelay = 0;
-            int mediumDelay = 0;
-            int longDelay = 0;
-            int moduleBuildDelay = 0;
-            int.TryParse(ConfigurationManager.AppSettings["ShortDelay"], out shortDelay);
-            int.TryParse(ConfigurationManager.AppSettings["MediumDelay"], out mediumDelay);
-            int.TryParse(ConfigurationManager.AppSettings["LongDelay"], out longDelay);
-            int.TryParse(ConfigurationManager.AppSettings["ModuleBuildDelay"], out moduleBuildDelay);
-            // Get speed modifier parameter
-
-            Automate automate = new Automate(shortDelay, mediumDelay, longDelay, moduleBuildDelay);
 
             do
             {
@@ -114,27 +101,27 @@ namespace KLaunch.Scripts
                     break;
                 }
                 automate.ShortDelay();
-                SendKeys.Send(password + "{ENTER}");
+                automate.Send(password + "{ENTER}");
 
                 automate.MediumDelay();
 
-                SendKeys.Send("{TAB}");
+                automate.Send("{TAB}");
 
                 automate.MediumDelay();
 
-                SendKeys.Send("CLEARP{ENTER}");
+                automate.Send("CLEARP{ENTER}");
 
                 automate.MediumDelay();
 
-                SendKeys.Send("LOAD \"GB/MKMOD\"{ENTER}");      // This if for loading the make modules program
+                automate.Send("LOAD \"GB/MKMOD\"{ENTER}");      // This if for loading the make modules program
 
                 automate.MediumDelay();
 
-                SendKeys.Send("TRAP 'ExecuteScript{ENTER}");    // This is to stop the execution right after the module build sript has been created and before it's executed
+                automate.Send("TRAP 'ExecuteScript{ENTER}");    // This is to stop the execution right after the module build sript has been created and before it's executed
 
                 automate.MediumDelay();
 
-                SendKeys.Send("RUN{ENTER}");
+                automate.Send("RUN{ENTER}");
 
                 automate.LongDelay();
 
@@ -164,7 +151,7 @@ namespace KLaunch.Scripts
                 // as this process can take very variable amounts of time to complete it requires it's own delay time
                 automate.CustomDelay();
 
-                SendKeys.Send("{TAB}");
+                automate.Send("{TAB}");
                 automate.MediumDelay();
 
                 // Capture the module build script name by writing it into a known file name that we can get through FTP
@@ -236,7 +223,6 @@ namespace KLaunch.Scripts
 
                 readerFile.Close();
 
-                //SendKeys.Send("$END");
             } while (false);
         }
     }

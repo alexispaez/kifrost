@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Configuration;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -27,6 +28,25 @@ namespace KLaunch
         private int mediumDelay;
         private int longDelay;
         private int moduleBuildDelay;
+
+        public Automate()
+        {
+            // Get delay values from parameters
+            int shortDelay = 0;
+            int mediumDelay = 0;
+            int longDelay = 0;
+            int moduleBuildDelay = 0;
+            int.TryParse(ConfigurationManager.AppSettings["ShortDelay"], out shortDelay);
+            int.TryParse(ConfigurationManager.AppSettings["MediumDelay"], out mediumDelay);
+            int.TryParse(ConfigurationManager.AppSettings["LongDelay"], out longDelay);
+            int.TryParse(ConfigurationManager.AppSettings["ModuleBuildDelay"], out moduleBuildDelay);
+            // TODO Get speed modifier parameter
+
+            this.shortDelay = shortDelay;
+            this.mediumDelay = mediumDelay;
+            this.longDelay = longDelay;
+            this.moduleBuildDelay = moduleBuildDelay;
+        }
 
         public Automate(int shortDelay, int mediumDelay, int longDelay, int moduleBuildDelay)
 		{

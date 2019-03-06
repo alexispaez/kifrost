@@ -1,13 +1,15 @@
 ﻿Enhancements:
 -------------
 Scripts:
-Get and send files with KCML method, raise an exception if some connection data is missing 
+	Add FTP transfer method to Automate, raise an exception if some connection data is missing 
+Send:
+	Ensure the active application window is in foreground and is correct
 
 Next version:
 -------------
-Script execution
-	Move SendKey.Send to Automate, revise all access modifiers in WinApi
+Script execution;
 	Overhaul to make scripts customisable by the user
+	Revise all access modifiers in WinApi
 	Add progress form, thread and execution control with Pause/Stop/Restart
 	Modify execution speed 25% - 150%
 	Use process id for robustness
