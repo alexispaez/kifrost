@@ -34,6 +34,7 @@ namespace KLaunch
         private System.Windows.Forms.MenuItem menuItemLaunch;
         private System.Windows.Forms.MenuItem menuItemExit;
         private int sessionsToOpen = 0;
+        private bool bMsgBoxShown = false;
 
         public MainForm()
         {
@@ -114,6 +115,11 @@ namespace KLaunch
                 new MSCSPatch(),
                 true));
             actions.Add(new Action(
+                "Go to MS File Viewer",
+                "MS 00 General_utilities CDK_utilities MS_file_viewer",
+                null,
+                false));
+            actions.Add(new Action(
                 "Go to Customer Patch",
                 null,
                 new ScriptPatchCustomer(),
@@ -128,11 +134,6 @@ namespace KLaunch
                 null,
                 new FixBrokenLibrary(),
                 false));
-            //actions.Add(new Action(
-            //    "Get file through FTP",
-            //    null,
-            //    new ScriptFtpFile(),
-            //    false));
 
             comboBoxDestinations.Enabled = false;
         }
@@ -142,35 +143,45 @@ namespace KLaunch
         {
             // Specify what is done when a file is changed
             // Post actions to UI thread
-            _syncContext.Post(o => LoadConnections(e.FullPath), null);
+            _syncContext.Post(o => LoadConnections(e.FullPath, 10), null);
         }
 
-        private void LoadConnections(string connectionsFilePath)
+        private void LoadConnections(string connectionsFilePath, int retries = 1)
         {
             // Try five times to read the connections file into the connections list
             bool readFile = false;
-            int tries = 0;
             string message = "";
 
-            while (!readFile && tries++ < 5)
-                try
-                {
-                    Thread.Sleep(200);
+            if (bMsgBoxShown == true) return;
 
-                    KConnectionReader.LoadConnections(connections, connectionsFilePath);
+            try
+            {
+                KConnectionReader.LoadConnections(connections, connectionsFilePath);
 
-                    comboBoxConnections.Items.Clear();
-                    // Add items to the connection list dropdown
-                    comboBoxConnections.Items.AddRange(
-                        connections.FindAll(c => (checkBoxCvsOnly.Checked == true && c.CvsSystem == true) || (checkBoxCvsOnly.Checked == false)).ToArray());
+                // Add items to the connection list dropdown
+                comboBoxConnections.Items.Clear();
+                comboBoxConnections.Items.AddRange(
+                    connections.FindAll(c => (checkBoxCvsOnly.Checked == true && c.CvsSystem == true) || (checkBoxCvsOnly.Checked == false)).ToArray());
 
-                    readFile = true;
-                } catch (Exception ex) { message = ex.Message; }
+                readFile = true;
 
-            if (!readFile)
-                MessageBox.Show(String.Format("Could not read connection file:\n\n{0}", message), "Connection file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                RefreshConnection();
+            }
+            catch (Exception ex) { message = ex.Message; }
 
-            RefreshConnection();
+            if (retries > 1)
+            {
+                Thread.Sleep(200);
+                _syncContext.Post(o => LoadConnections(connectionsFilePath, retries - 1), null);
+            }
+
+            if (!readFile && bMsgBoxShown == false && retries == 1)
+            {
+                bMsgBoxShown = true;
+                DialogResult result = MessageBox.Show(String.Format("Could not read connection file:\n\n{0}", message), "Connection file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                bMsgBoxShown = false;
+            }
+                
         }
 
         private void comboBoxConnections_SelectedIndexChanged(object sender, EventArgs e)

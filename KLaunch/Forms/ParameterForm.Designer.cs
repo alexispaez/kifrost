@@ -43,11 +43,11 @@
             this.numericUpDownShort = new System.Windows.Forms.NumericUpDown();
             this.trackBarSpeedModifier = new System.Windows.Forms.TrackBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBoxMinimizeToNotification = new System.Windows.Forms.CheckBox();
+            this.checkBoxMinimizeOnLaunch = new System.Windows.Forms.CheckBox();
             this.buttonConnections = new System.Windows.Forms.Button();
             this.textBoxConnections = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.checkBoxMinimizeOnLaunch = new System.Windows.Forms.CheckBox();
-            this.checkBoxMinimizeToNotification = new System.Windows.Forms.CheckBox();
             this.groupBoxScriptParameters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownModule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownLong)).BeginInit();
@@ -141,9 +141,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(7, 109);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(77, 13);
+            this.label5.Size = new System.Drawing.Size(110, 13);
             this.label5.TabIndex = 8;
-            this.label5.Text = "Speed modifier";
+            this.label5.Text = "Modify delay by factor";
             // 
             // label4
             // 
@@ -189,12 +189,12 @@
             // 
             this.numericUpDownMedium.Location = new System.Drawing.Point(131, 46);
             this.numericUpDownMedium.Maximum = new decimal(new int[] {
-            1000,
+            5000,
             0,
             0,
             0});
             this.numericUpDownMedium.Minimum = new decimal(new int[] {
-            501,
+            500,
             0,
             0,
             0});
@@ -220,7 +220,7 @@
             // 
             this.numericUpDownShort.Location = new System.Drawing.Point(131, 20);
             this.numericUpDownShort.Maximum = new decimal(new int[] {
-            500,
+            5000,
             0,
             0,
             0});
@@ -264,6 +264,27 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Application parameters";
             // 
+            // checkBoxMinimizeToNotification
+            // 
+            this.checkBoxMinimizeToNotification.AutoSize = true;
+            this.checkBoxMinimizeToNotification.Location = new System.Drawing.Point(135, 49);
+            this.checkBoxMinimizeToNotification.Name = "checkBoxMinimizeToNotification";
+            this.checkBoxMinimizeToNotification.Size = new System.Drawing.Size(156, 17);
+            this.checkBoxMinimizeToNotification.TabIndex = 5;
+            this.checkBoxMinimizeToNotification.Text = "Minimize to notification area";
+            this.checkBoxMinimizeToNotification.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMinimizeOnLaunch
+            // 
+            this.checkBoxMinimizeOnLaunch.AutoSize = true;
+            this.checkBoxMinimizeOnLaunch.Location = new System.Drawing.Point(13, 49);
+            this.checkBoxMinimizeOnLaunch.Name = "checkBoxMinimizeOnLaunch";
+            this.checkBoxMinimizeOnLaunch.Size = new System.Drawing.Size(116, 17);
+            this.checkBoxMinimizeOnLaunch.TabIndex = 4;
+            this.checkBoxMinimizeOnLaunch.Text = "Minimize on launch";
+            this.checkBoxMinimizeOnLaunch.UseVisualStyleBackColor = true;
+            this.checkBoxMinimizeOnLaunch.CheckedChanged += new System.EventHandler(this.checkBoxMinimizeOnLaunch_CheckedChanged);
+            // 
             // buttonConnections
             // 
             this.buttonConnections.Location = new System.Drawing.Point(284, 19);
@@ -289,27 +310,6 @@
             this.label7.Size = new System.Drawing.Size(82, 13);
             this.label7.TabIndex = 0;
             this.label7.Text = "Connections file";
-            // 
-            // checkBoxMinimizeOnLaunch
-            // 
-            this.checkBoxMinimizeOnLaunch.AutoSize = true;
-            this.checkBoxMinimizeOnLaunch.Location = new System.Drawing.Point(13, 49);
-            this.checkBoxMinimizeOnLaunch.Name = "checkBoxMinimizeOnLaunch";
-            this.checkBoxMinimizeOnLaunch.Size = new System.Drawing.Size(116, 17);
-            this.checkBoxMinimizeOnLaunch.TabIndex = 4;
-            this.checkBoxMinimizeOnLaunch.Text = "Minimize on launch";
-            this.checkBoxMinimizeOnLaunch.UseVisualStyleBackColor = true;
-            this.checkBoxMinimizeOnLaunch.CheckedChanged += new System.EventHandler(this.checkBoxMinimizeOnLaunch_CheckedChanged);
-            // 
-            // checkBoxMinimizeToNotification
-            // 
-            this.checkBoxMinimizeToNotification.AutoSize = true;
-            this.checkBoxMinimizeToNotification.Location = new System.Drawing.Point(135, 49);
-            this.checkBoxMinimizeToNotification.Name = "checkBoxMinimizeToNotification";
-            this.checkBoxMinimizeToNotification.Size = new System.Drawing.Size(156, 17);
-            this.checkBoxMinimizeToNotification.TabIndex = 5;
-            this.checkBoxMinimizeToNotification.Text = "Minimize to notification area";
-            this.checkBoxMinimizeToNotification.UseVisualStyleBackColor = true;
             // 
             // ParameterForm
             // 

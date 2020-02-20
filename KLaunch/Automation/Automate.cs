@@ -28,6 +28,7 @@ namespace KLaunch
         private int mediumDelay;
         private int longDelay;
         private int moduleBuildDelay;
+        private double speedModifier;   
 
         public Automate()
         {
