@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace KLaunch
@@ -22,9 +24,29 @@ namespace KLaunch
 		[STAThread]
 		private static void Main(string[] args)
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			bool createdNew = true;
+			using (Mutex mutex = new Mutex(true, "KiFrost", out createdNew))
+			{
+				if (createdNew)
+				{
+					Application.EnableVisualStyles();
+					Application.SetCompatibleTextRenderingDefault(false);
+					Application.Run(new MainForm());
+				}
+				else
+				{
+					Process current = Process.GetCurrentProcess();
+					foreach (Process process in Process.GetProcessesByName(current.ProcessName))
+					{
+						if (process.Id != current.Id)
+						{
+							WinApi.SetForegroundWindow((int)process.MainWindowHandle);
+							WinApi.ShowWindow((int)process.MainWindowHandle, WinApi.SW_SHOW);
+							break;
+						}
+					}
+				}
+			}
 		}
 		
 	}
