@@ -10,10 +10,10 @@
     <AssemblyName>KiFrost</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>https://github.com/alexispaez/kifrost.git/</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -128,11 +128,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="main-icon.ico" />
+    <None Include="Resources\%24this.Icon.ico" />
+    <None Include="Resources\Gnome-Dialog-Information.ico" />
+    <None Include="Resources\FileSave.ico" />
+    <None Include="Resources\Redo.ico" />
+    <None Include="Resources\csv_file.ico" />
+    <None Include="Resources\CSV.ico" />
+    <None Include="Resources\Reload.ico" />
+    <None Include="Resources\Save.ico" />
+    <None Include="Resources\RedoIcon.ico" />
     <Content Include="TODO list.txt" />
   </ItemGroup>
   <ItemGroup>

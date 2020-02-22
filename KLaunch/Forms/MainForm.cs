@@ -34,7 +34,6 @@ namespace KLaunch
         private System.Windows.Forms.MenuItem menuItemLaunch;
         private System.Windows.Forms.MenuItem menuItemExit;
         private int sessionsToOpen = 0;
-        private bool bMsgBoxShown = false;
 
         public MainForm()
         {
@@ -134,6 +133,11 @@ namespace KLaunch
                 null,
                 new FixBrokenLibrary(),
                 false));
+            //actions.Add(new Action(
+            //    "Get file through FTP",
+            //    null,
+            //    new ScriptFtpFile(),
+            //    false));
 
             comboBoxDestinations.Enabled = false;
         }
@@ -143,45 +147,35 @@ namespace KLaunch
         {
             // Specify what is done when a file is changed
             // Post actions to UI thread
-            _syncContext.Post(o => LoadConnections(e.FullPath, 10), null);
+            _syncContext.Post(o => LoadConnections(e.FullPath), null);
         }
 
-        private void LoadConnections(string connectionsFilePath, int retries = 1)
+        private void LoadConnections(string connectionsFilePath)
         {
             // Try five times to read the connections file into the connections list
             bool readFile = false;
+            int tries = 0;
             string message = "";
 
-            if (bMsgBoxShown == true) return;
+            while (!readFile && tries++ < 5)
+                try
+                {
+                    Thread.Sleep(200);
 
-            try
-            {
-                KConnectionReader.LoadConnections(connections, connectionsFilePath);
+                    KConnectionReader.LoadConnections(connections, connectionsFilePath);
 
-                // Add items to the connection list dropdown
-                comboBoxConnections.Items.Clear();
-                comboBoxConnections.Items.AddRange(
-                    connections.FindAll(c => (checkBoxCvsOnly.Checked == true && c.CvsSystem == true) || (checkBoxCvsOnly.Checked == false)).ToArray());
+                    comboBoxConnections.Items.Clear();
+                    // Add items to the connection list dropdown
+                    comboBoxConnections.Items.AddRange(
+                        connections.FindAll(c => (checkBoxCvsOnly.Checked == true && c.CvsSystem == true) || (checkBoxCvsOnly.Checked == false)).ToArray());
 
-                readFile = true;
+                    readFile = true;
+                } catch (Exception ex) { message = ex.Message; }
 
-                RefreshConnection();
-            }
-            catch (Exception ex) { message = ex.Message; }
+            if (!readFile)
+                MessageBox.Show(String.Format("Could not read connection file:\n\n{0}", message), "Connection file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            if (retries > 1)
-            {
-                Thread.Sleep(200);
-                _syncContext.Post(o => LoadConnections(connectionsFilePath, retries - 1), null);
-            }
-
-            if (!readFile && bMsgBoxShown == false && retries == 1)
-            {
-                bMsgBoxShown = true;
-                DialogResult result = MessageBox.Show(String.Format("Could not read connection file:\n\n{0}", message), "Connection file error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                bMsgBoxShown = false;
-            }
-                
+            RefreshConnection();
         }
 
         private void comboBoxConnections_SelectedIndexChanged(object sender, EventArgs e)
@@ -205,6 +199,8 @@ namespace KLaunch
             textBoxUser.Text = kConnection.User;
             textBoxPassword.Text = kConnection.Password;
             textBoxHome.Text = kConnection.Home;
+            //Nacho Load the icon
+            textIcon.Text = kConnection.IconR;
 
             comboBoxActions.Items.Clear();
             comboBoxActions.Items.Add("");
@@ -288,7 +284,7 @@ namespace KLaunch
             Script script = null;
 
             string arguments = String.Format(
-                "-h {0}:{1} -v {2} -u {3}", // -C {5} for shortcuts 
+                "-s -h {0}:{1} -v {2} -u {3}", // -C {5} for shortcuts ;; Nacho added -s
                 textBoxHost.Text,
                 textBoxPort.Text,
                 textBoxService.Text,
@@ -299,7 +295,13 @@ namespace KLaunch
                 arguments = arguments + " -R";  // Recall a saved password
             else
                 arguments = arguments + String.Format(" -X {0}", textBoxPassword.Text); // Pass the password explicitly
-
+            // Nacho check Icon tex
+            if (textIcon.Text == "")
+                arguments = arguments + String.Format(" -P 1,1 ");
+                // Nacho
+            else
+                arguments = arguments + String.Format(" -i {0},0", textIcon.Text); // Pass the icon absolute path
+                //arguments = arguments + String.Format(" -P 1,1 ");
             // Check if an action has been selected
             if (comboBoxActions.SelectedIndex != -1)
             {
@@ -513,6 +515,21 @@ namespace KLaunch
         }
 
         private void MainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxIcon_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        
+        }
+
+        private void textIcon_TextChanged(object sender, EventArgs e)
         {
 
         }

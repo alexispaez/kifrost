@@ -18,8 +18,10 @@ namespace KLaunch
         public string Home { get; set; }
         public bool CvsSystem { get; set; }
         public string Notes { get; set; }
+        public string IconR { get; set; } //Nacho
 
-        public KConnection(string country, string name, string path, string host, string service, string port, string user, string password, string home, bool cvsSystem, string notes)
+        public KConnection(string country, string name, string path, string host, string service, string port, string user, string password, string home, bool cvsSystem, string notes, string IconR)
+            // Nacho added Icon
         {
             this.Country = country;
             this.Name = name;
@@ -32,6 +34,7 @@ namespace KLaunch
             this.Home = home;
             this.CvsSystem = cvsSystem;
             this.Notes = notes;
+            this.IconR = IconR;
         }
 
         public string GetNotes()
