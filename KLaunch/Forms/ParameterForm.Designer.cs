@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonSaveRec = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.groupBoxScriptParameters = new System.Windows.Forms.GroupBox();
@@ -59,13 +59,13 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(490, 209);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(75, 23);
-            this.buttonSave.TabIndex = 3;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonOk_Click);
+            this.buttonSaveRec.Location = new System.Drawing.Point(490, 209);
+            this.buttonSaveRec.Name = "buttonSaveRec";
+            this.buttonSaveRec.Size = new System.Drawing.Size(75, 23);
+            this.buttonSaveRec.TabIndex = 3;
+            this.buttonSaveRec.Text = "Save";
+            this.buttonSaveRec.UseVisualStyleBackColor = true;
+            this.buttonSaveRec.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // label1
             // 
@@ -320,7 +320,7 @@
             this.Controls.Add(this.groupBoxScriptParameters);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonSaveRec);
             this.Name = "ParameterForm";
             this.Text = "KiFrost Parameters";
             this.Load += new System.EventHandler(this.ParameterForm_Load);
@@ -340,7 +340,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonSaveRec;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.GroupBox groupBoxScriptParameters;

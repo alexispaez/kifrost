@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace KLaunch
 {
@@ -11,6 +12,7 @@ namespace KLaunch
     {
         public static void LoadConnections(List<KConnection> connections, string connectionsFilePath, int retries = 5) {
             String line;
+            bool Nothing;
             //Pass the file path and file name to the StreamReader constructor
             StreamReader sr = new StreamReader(connectionsFilePath);
 
@@ -36,11 +38,16 @@ namespace KLaunch
                     parts[8],
                     (parts[9] == "Y" ? true : false),
                     parts[10],
-                    parts[11])); //Nacho ¿Icono?
+                    parts[11], //Nacho, Icono
+                    parts[12] )); //Nacho, TLS Encryption
             }
 
             //close the file
             sr.Close();
-        }
+    }
+ }
+    class KConnectionSaver
+    {
+        // ToDo Save connection as CSV
     }
 }

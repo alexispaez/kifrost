@@ -19,9 +19,11 @@ namespace KLaunch
         public bool CvsSystem { get; set; }
         public string Notes { get; set; }
         public string IconR { get; set; } //Nacho
-
-        public KConnection(string country, string name, string path, string host, string service, string port, string user, string password, string home, bool cvsSystem, string notes, string IconR)
-            // Nacho added Icon
+        public string TLSBox { get; set; } //Nacho
+        public string FileZillaDir { get; set; } //Nacho Filezilla
+        
+        public KConnection(string country, string name, string path, string host, string service, string port, string user, string password, string home, bool cvsSystem, string notes, string IconR, string TLSBox)
+            // Nacho added Icon & TLS 
         {
             this.Country = country;
             this.Name = name;
@@ -35,6 +37,7 @@ namespace KLaunch
             this.CvsSystem = cvsSystem;
             this.Notes = notes;
             this.IconR = IconR;
+            this.TLSBox = TLSBox; //Nacho
         }
 
         public string GetNotes()
