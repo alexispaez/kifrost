@@ -162,11 +162,13 @@ namespace KLaunch
 			this.buttonPatchMS.Size = new System.Drawing.Size(125, 23);
 			this.buttonPatchMS.TabIndex = 41;
 			this.buttonPatchMS.Text = "Generate Patch";
+			this.buttonPatchMS.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.buttonPatchMS.UseVisualStyleBackColor = true;
 			this.buttonPatchMS.Click += new System.EventHandler(this.buttonPatchMS_Click);
 			// 
 			// buttonConManager
 			// 
+			this.buttonConManager.Enabled = false;
 			this.buttonConManager.Image = global::KiFrost.Properties.Resources.BrowserIco;
 			this.buttonConManager.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.buttonConManager.Location = new System.Drawing.Point(324, 148);
@@ -182,7 +184,7 @@ namespace KLaunch
 			// 
 			this.label4.AutoSize = true;
 			this.label4.ForeColor = System.Drawing.SystemColors.Highlight;
-			this.label4.Location = new System.Drawing.Point(321, 305);
+			this.label4.Location = new System.Drawing.Point(80, 335);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(0, 13);
 			this.label4.TabIndex = 39;
@@ -196,8 +198,10 @@ namespace KLaunch
 			this.PatchInfo.Name = "PatchInfo";
 			this.PatchInfo.Size = new System.Drawing.Size(125, 23);
 			this.PatchInfo.TabIndex = 38;
-			this.PatchInfo.Text = "Patch Info";
+			this.PatchInfo.Text = "Copy Patch Info";
+			this.PatchInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.PatchInfo.UseVisualStyleBackColor = true;
+			this.PatchInfo.Click += new System.EventHandler(this.PatchInfo_click);
 			// 
 			// Country
 			// 
@@ -299,6 +303,7 @@ namespace KLaunch
 			this.buttonFtpClient.Size = new System.Drawing.Size(125, 23);
 			this.buttonFtpClient.TabIndex = 28;
 			this.buttonFtpClient.Text = "Start FTP client...";
+			this.buttonFtpClient.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.buttonFtpClient.UseVisualStyleBackColor = true;
 			this.buttonFtpClient.Click += new System.EventHandler(this.buttonFtpClient_Click);
 			// 
@@ -345,7 +350,7 @@ namespace KLaunch
 			// labelNotes
 			// 
 			this.labelNotes.AutoSize = true;
-			this.labelNotes.Location = new System.Drawing.Point(324, 243);
+			this.labelNotes.Location = new System.Drawing.Point(324, 196);
 			this.labelNotes.Name = "labelNotes";
 			this.labelNotes.Size = new System.Drawing.Size(83, 13);
 			this.labelNotes.TabIndex = 26;
@@ -354,7 +359,7 @@ namespace KLaunch
 			// 
 			// textBoxNotes
 			// 
-			this.textBoxNotes.Location = new System.Drawing.Point(324, 273);
+			this.textBoxNotes.Location = new System.Drawing.Point(324, 226);
 			this.textBoxNotes.Multiline = true;
 			this.textBoxNotes.Name = "textBoxNotes";
 			this.textBoxNotes.ReadOnly = true;
@@ -382,6 +387,7 @@ namespace KLaunch
 			this.buttonExecute.Size = new System.Drawing.Size(125, 23);
 			this.buttonExecute.TabIndex = 23;
 			this.buttonExecute.Text = "Execute script...";
+			this.buttonExecute.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.buttonExecute.UseVisualStyleBackColor = true;
 			this.buttonExecute.Click += new System.EventHandler(this.buttonExecute_Click);
 			// 

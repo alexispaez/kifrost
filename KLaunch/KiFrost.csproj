@@ -50,7 +50,7 @@
     <ApplicationIcon>main-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <OutputPath>..\..\..\..\..\..\tmp\KLaunch\</OutputPath>
+    <OutputPath>..\..\..\..\..\..\tmp\Kfrost_comp\</OutputPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">

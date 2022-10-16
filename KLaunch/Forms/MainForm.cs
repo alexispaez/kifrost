@@ -216,6 +216,9 @@ namespace KLaunch
 			menuItemLaunch.Enabled = true;
 			buttonFtpClient.Enabled = true;
 			buttonConManager.Enabled = true;
+			PatchInfo.Enabled = true;
+			buttonPatchMS.Enabled = true;
+			buttonSaveRec.Enabled = true;
 
 			SetNotes();
 		}
@@ -511,7 +514,7 @@ namespace KLaunch
 
 		private void buttonFtpClient_Click(object sender, EventArgs e)
 		{
-			string arguments = "sftp://" + textBoxUser.Text + ":" + textBoxPassword.Text + "@" + textBoxHost.Text + textBoxHome.Text;
+			string arguments = "sftp://" + textBoxUser.Text + ":" + textBoxPassword.Text + "@" + textBoxHost.Text + "/" + textBoxHome.Text;
 			string FileZillaExec;
 			string FileZillaDir;
 			string FileZillaPath;
@@ -619,8 +622,13 @@ namespace KLaunch
 			string sLogin = "$LOGIN=";
 			string sPwd = "$PASSWORD=";
 			string sPatchInfoc;
-			sPatchInfoc = "PATCHINFO:   " + HomeDir + textBoxHome.Text + "    " + sIPa + textBoxHost + "    " + sLogin + textBoxUser.Text + "    " + sPwd + textBoxPassword.Text;
-
+			sPatchInfoc = "PATCHINFO:   " + HomeDir + textBoxHome.Text + "    " + sIPa + textBoxHost.Text + "    " + sLogin + textBoxUser.Text + "    " + sPwd + textBoxPassword.Text;
+			//Ask to ad $SCRIPT
+			if (MessageBox.Show("Add the file with the MS patch request?", " ", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+			{
+				sPatchInfoc = sPatchInfoc + "  $SCRIPT=" + "MSProductList.xml";
+			}
+			//
 			panel1.Text = "Copiando información de parcheo al portapapeles";
 			Clipboard.SetData(DataFormats.Text, sPatchInfoc);
 			// Copied to clipboard
@@ -646,20 +654,30 @@ namespace KLaunch
 			string SubModule;
 			string xmlLine;
 			string xmlFile;
-									
+			AppDomain domain = AppDomain.CurrentDomain;
+
 			MessageBox.Show(messageBoxText);
+			//First delete previous file, if already present
+			if (File.Exists(@"ListMS.csv"))
+			{
+				File.Delete(@"ListMS.csv");
+			}
+			//Second copy from template
+			File.Copy(@"ListMS_bak.csv", @"ListMS.csv", true);
+			//Open file so that products could be added
 			System.Diagnostics.Process.Start(@"ListMS.csv").WaitForExit();
 
 			//Convert this file into an XML
 			FileStream objWrite = null;
-			xmlFile = connectionsFilePath + sFrom;
-			objWrite = new FileStream(xmlFile, FileMode.Open);
+			File.Delete(sFrom);
+			xmlFile = domain.BaseDirectory + sFrom;
+			objWrite = new FileStream(xmlFile, FileMode.CreateNew);
 
 			StreamReader sr = new StreamReader(@"ListMS.csv");
 			sr.ReadLine();
 			while ((sLine = sr.ReadLine()) != null)
 			{
-				string[] MSProducts = sLine.Split(',');
+				string[] MSProducts = sLine.Split(';');
 				//MSProducts[0] ==> Module
 				//MSProducts[1] ==> Product
 				//MSProducts[2] ==> Branch
@@ -668,11 +686,11 @@ namespace KLaunch
 				sequence = itries.ToString();
 				SubModule = MSProducts[1].Substring(0, 2);
 				xmlLine = "<Install Module=\"" + MSProducts[0] + "\"";
-				xmlLine = xmlLine + "ProductID=\"" + MSProducts[1] + "\"";
-				xmlLine = xmlLine + "Sequence=\"" + sequence + "\"";
-				xmlLine = xmlLine + "SubModule=\"" + SubModule + "\"";
-				xmlLine = xmlLine + "VersionMajor=\"" + MSProducts[2] + "\"";
-				xmlLine = xmlLine + "VersionMinor=\"" + MSProducts[3] + "\"";
+				xmlLine = xmlLine + " ProductID=\"" + MSProducts[1] + "\"";
+				xmlLine = xmlLine + " Sequence=\"" + sequence + "\"";
+				xmlLine = xmlLine + " SubModule=\"" + SubModule + "\"";
+				xmlLine = xmlLine + " VersionMajor=\"" + MSProducts[2] + "\"";
+				xmlLine = xmlLine + " VersionMinor=\"" + MSProducts[3] + "\"";
 				xmlLine = xmlLine + "/>";
 				using (StreamWriter src = new StreamWriter(objWrite))
 				{
