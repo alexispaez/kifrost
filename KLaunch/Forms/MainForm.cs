@@ -216,10 +216,13 @@ namespace KLaunch
 			menuItemLaunch.Enabled = true;
 			buttonFtpClient.Enabled = true;
 			buttonConManager.Enabled = true;
-			PatchInfo.Enabled = true;
 			if (kConnection.CvsSystem == true)
 			{
 				buttonPatchMS.Enabled = true;
+			}
+			else
+			{
+				PatchInfo.Enabled = true;
 			}
 			buttonSaveRec.Enabled = true;
 
@@ -676,40 +679,35 @@ namespace KLaunch
 			System.Diagnostics.Process.Start(@"ListMS.csv").WaitForExit();
 
 			//Convert this file into an XML
-			FileStream objWrite = null;
 			File.Delete(sFrom);
 			xmlFile = domain.BaseDirectory + sFrom;
-			objWrite = new FileStream(xmlFile, FileMode.CreateNew);
-
-			StreamReader sr = new StreamReader(@"ListMS.csv");
-			sr.ReadLine();
-			while ((sLine = sr.ReadLine()) != null)
+			using (StreamWriter src = new StreamWriter(xmlFile))
 			{
-				string[] MSProducts = sLine.Split(';');
-				//MSProducts[0] ==> Module
-				//MSProducts[1] ==> Product
-				//MSProducts[2] ==> Branch
-				//MSProducts[3] ==> Release
-				itries = itries + 1;
-				sequence = itries.ToString();
-				SubModule = MSProducts[1].Substring(0, 2);
-				xmlLine = "<Install Module=\"" + MSProducts[0] + "\"";
-				xmlLine = xmlLine + " ProductID=\"" + MSProducts[1] + "\"";
-				xmlLine = xmlLine + " Sequence=\"" + sequence + "\"";
-				xmlLine = xmlLine + " SubModule=\"" + SubModule + "\"";
-				xmlLine = xmlLine + " VersionMajor=\"" + MSProducts[2] + "\"";
-				xmlLine = xmlLine + " VersionMinor=\"" + MSProducts[3] + "\"";
-				xmlLine = xmlLine + "/>";
-				using (StreamWriter src = new StreamWriter(objWrite))
+				StreamReader sr = new StreamReader(@"ListMS.csv");
+				sr.ReadLine();
+				while ((sLine = sr.ReadLine()) != null)
 				{
+					string[] MSProducts = sLine.Split(';');
+					//MSProducts[0] ==> Module
+					//MSProducts[1] ==> Product
+					//MSProducts[2] ==> Branch
+					//MSProducts[3] ==> Release
+					itries = itries + 1;
+					sequence = itries.ToString();
+					SubModule = MSProducts[1].Substring(0, 2);
+					xmlLine = "<Install Module=\"" + MSProducts[0] + "\"";
+					xmlLine = xmlLine + " ProductID=\"" + MSProducts[1] + "\"";
+					xmlLine = xmlLine + " Sequence=\"" + sequence + "\"";
+					xmlLine = xmlLine + " SubModule=\"" + SubModule + "\"";
+					xmlLine = xmlLine + " VersionMajor=\"" + MSProducts[2] + "\"";
+					xmlLine = xmlLine + " VersionMinor=\"" + MSProducts[3] + "\"";
+					xmlLine = xmlLine + "/>";
+					// Save Line
 					src.WriteLine(xmlLine);
 				}
-				if (objWrite != null)
-					objWrite.Dispose();
+				sr.Close();
 			}
-			sr.Close();
 			//End - create an file that will be an XML
-
 			// Upload this XML file
 			sDestTo = "ftp://" + textBoxHost.Text + textBoxHome.Text + "/" + sFrom;
 			using (WebClient client = new WebClient())
@@ -717,7 +715,7 @@ namespace KLaunch
 					client.Credentials = new NetworkCredential(textBoxUser.Text, textBoxPassword.Text);
 					client.UploadFile(sDestTo, WebRequestMethods.Ftp.UploadFile, sFrom);
 				}
-			//Now let's remove the local xml file
+			//Now remove the local xml file
 			File.Delete(xmlFile);
 		}
 
@@ -751,7 +749,7 @@ namespace KLaunch
 				sTLS = "Y";
 				}
 			sCountry = sTempString.Substring(0, 2);
-			sSysName = sTempString.Substring(4, parenthPos);
+			sSysName = sTempString.Substring(3, parenthPos);
 			NewRec = sCountry + ";" + sSysName + ";" + textBoxPath.Text + ";"
 				+ textBoxHost.Text + ";" + textBoxService.Text + ";" + textBoxPort.Text + ";"
 				+ textBoxUser.Text + ";" + textBoxPassword.Text + ";" + textBoxHome.Text + ";"
