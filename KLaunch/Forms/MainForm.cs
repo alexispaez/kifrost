@@ -217,7 +217,10 @@ namespace KLaunch
 			buttonFtpClient.Enabled = true;
 			buttonConManager.Enabled = true;
 			PatchInfo.Enabled = true;
-			buttonPatchMS.Enabled = true;
+			if (kConnection.CvsSystem == true)
+			{
+				buttonPatchMS.Enabled = true;
+			}
 			buttonSaveRec.Enabled = true;
 
 			SetNotes();
@@ -526,7 +529,7 @@ namespace KLaunch
 			RegistryKey erreka;
 			if (Environment.Is64BitOperatingSystem == true)
 			{
-				erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64);
+				erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine , RegistryView.Registry64);
 			}
 			else
 			{
@@ -622,6 +625,10 @@ namespace KLaunch
 			string sLogin = "$LOGIN=";
 			string sPwd = "$PASSWORD=";
 			string sPatchInfoc;
+			if (textBoxHome.Text == "")
+			{
+				MessageBox.Show("Missing HOME info");
+			}
 			sPatchInfoc = "PATCHINFO:   " + HomeDir + textBoxHome.Text + "    " + sIPa + textBoxHost.Text + "    " + sLogin + textBoxUser.Text + "    " + sPwd + textBoxPassword.Text;
 			//Ask to ad $SCRIPT
 			if (MessageBox.Show("Add the file with the MS patch request?", " ", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
@@ -633,13 +640,14 @@ namespace KLaunch
 			Clipboard.SetData(DataFormats.Text, sPatchInfoc);
 			// Copied to clipboard
 			label4.Text = "Patch Information copied to clipboard.";
-			textBoxNotes.Text = sPatchInfoc;
+			textPatchNotes.Clear();
+			textPatchNotes.Text = sPatchInfoc;
 		}
 
 		private void ConManager_Click(object sender, EventArgs e)
 		{
 			//Open Host:port so that Connection Manager is triggered		
-			string sURL = "https://" + textBoxHost.Text + ":" + textBoxPort.Text;
+			string sURL = "http://" + textBoxHost.Text + ":" + textBoxPort.Text;
 			System.Diagnostics.Process.Start(sURL);
 		}
 
@@ -745,7 +753,7 @@ namespace KLaunch
 			sCountry = sTempString.Substring(0, 2);
 			sSysName = sTempString.Substring(4, parenthPos);
 			NewRec = sCountry + ";" + sSysName + ";" + textBoxPath.Text + ";"
-				+ textBoxHost.Text + ";" + textBoxService + ";" + textBoxPort.Text + ";"
+				+ textBoxHost.Text + ";" + textBoxService.Text + ";" + textBoxPort.Text + ";"
 				+ textBoxUser.Text + ";" + textBoxPassword.Text + ";" + textBoxHome.Text + ";"
 				+ sCVS + " ;" //CVS system
 				+ " ;" //Notes not for the moment

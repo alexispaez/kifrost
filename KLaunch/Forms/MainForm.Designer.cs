@@ -84,6 +84,7 @@ namespace KLaunch
 			this.label2 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
+			this.textPatchNotes = new System.Windows.Forms.TextBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericSessions)).BeginInit();
@@ -103,6 +104,7 @@ namespace KLaunch
 			// 
 			// tabPage1
 			// 
+			this.tabPage1.Controls.Add(this.textPatchNotes);
 			this.tabPage1.Controls.Add(this.buttonPatchMS);
 			this.tabPage1.Controls.Add(this.buttonConManager);
 			this.tabPage1.Controls.Add(this.label4);
@@ -350,7 +352,7 @@ namespace KLaunch
 			// labelNotes
 			// 
 			this.labelNotes.AutoSize = true;
-			this.labelNotes.Location = new System.Drawing.Point(324, 196);
+			this.labelNotes.Location = new System.Drawing.Point(324, 178);
 			this.labelNotes.Name = "labelNotes";
 			this.labelNotes.Size = new System.Drawing.Size(83, 13);
 			this.labelNotes.TabIndex = 26;
@@ -359,11 +361,11 @@ namespace KLaunch
 			// 
 			// textBoxNotes
 			// 
-			this.textBoxNotes.Location = new System.Drawing.Point(324, 226);
+			this.textBoxNotes.Location = new System.Drawing.Point(325, 194);
 			this.textBoxNotes.Multiline = true;
 			this.textBoxNotes.Name = "textBoxNotes";
 			this.textBoxNotes.ReadOnly = true;
-			this.textBoxNotes.Size = new System.Drawing.Size(266, 97);
+			this.textBoxNotes.Size = new System.Drawing.Size(266, 58);
 			this.textBoxNotes.TabIndex = 27;
 			// 
 			// checkBoxCvsOnly
@@ -605,6 +607,14 @@ namespace KLaunch
 			this.pictureBoxLogo.TabStop = false;
 			this.pictureBoxLogo.Click += new System.EventHandler(this.pictureBox1_Click);
 			// 
+			// textPatchNotes
+			// 
+			this.textPatchNotes.Location = new System.Drawing.Point(325, 259);
+			this.textPatchNotes.Multiline = true;
+			this.textPatchNotes.Name = "textPatchNotes";
+			this.textPatchNotes.Size = new System.Drawing.Size(266, 108);
+			this.textPatchNotes.TabIndex = 42;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -676,5 +686,6 @@ namespace KLaunch
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button buttonConManager;
 		private System.Windows.Forms.Button buttonPatchMS;
+		private System.Windows.Forms.TextBox textPatchNotes;
 	}
 }
