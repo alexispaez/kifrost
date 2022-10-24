@@ -10,7 +10,8 @@ namespace KLaunch
 {
     class KConnectionReader
     {
-        public static void LoadConnections(List<KConnection> connections, string connectionsFilePath, int retries = 5) {
+        public static void LoadConnections(List<KConnection> connections, string connectionsFilePath, int retries = 5)
+		{
             String line;
             bool Nothing;
             //Pass the file path and file name to the StreamReader constructor
@@ -27,27 +28,42 @@ namespace KLaunch
                 // Parse the line
                 string[] parts = line.Split(';');
                 connections.Add(new KConnection(
-                    parts[0],
-                    parts[1],
-                    parts[2],
-                    parts[3],
-                    parts[4],
-                    parts[5],
-                    parts[6],
-                    parts[7],
-                    parts[8],
-                    (parts[9] == "Y" ? true : false),
-                    parts[10],
-                    parts[11], //Nacho, Icono
-                    parts[12] )); //Nacho, TLS Encryption
+                    parts[0], // Country
+                    parts[1], // Name
+                    parts[2], // Path to Kclient
+                    parts[3], // Host
+                    parts[4], // (KCML) Service
+                    parts[5], // Port
+                    parts[6], // User
+                    parts[7], // Password
+                    parts[8], // Home
+                    (parts[9] == "Y" ? true : false), // CVS system?
+                    parts[10], // Notes
+                    parts[11], // Icon
+                    parts[12] )); // TLS Encryption
             }
 
             //close the file
             sr.Close();
-    }
- }
+		}
+	}
     class KConnectionSaver
     {
-        // ToDo Save connection as CSV
+		public static void SaveConnnections(List<KConnection> connections, string connectionsFilePath)
+		{
+			FileStream objWrite = null;
+			objWrite = new FileStream(connectionsFilePath, FileMode.Append);
+
+			string sTempString = "KConnection.Country + KConnection.Name + KConnection.Path + KConnection.Host + KConnection.Service + KConnection.Port";
+			sTempString += "KConnection.User + KConnection.Password + KConnection.Home + ";
+			// (KConnection.CvsSystem == true && "Y" || "N") + " " + KConnection.IconR + (KConnection.TLSBox == true && "Y" || "N")";
+			using (StreamWriter src = new StreamWriter(objWrite))
+			{
+				src.WriteLine(sTempString);
+			}
+			//src.close()
+			if (objWrite != null)
+				objWrite.Dispose();
+		}
     }
 }

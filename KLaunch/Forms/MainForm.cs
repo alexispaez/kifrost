@@ -201,9 +201,9 @@ namespace KLaunch
 			textBoxUser.Text = kConnection.User;
 			textBoxPassword.Text = kConnection.Password;
 			textBoxHome.Text = kConnection.Home;
-			//Nacho Load the icon
+			// Load the icon
 			textIcon.Text = kConnection.IconR;
-			//Nacho Load TLS Encryption
+			// Load TLS Encryption
 			TLSBox.Checked = (kConnection.TLSBox == "Y" && true || false);
 
 			comboBoxActions.Items.Clear();
@@ -520,7 +520,7 @@ namespace KLaunch
 
 		private void buttonFtpClient_Click(object sender, EventArgs e)
 		{
-			string arguments = "sftp://" + textBoxUser.Text + ":" + textBoxPassword.Text + "@" + textBoxHost.Text + "/" + textBoxHome.Text;
+			string arguments = "sftp://" + textBoxUser.Text + ":" + textBoxPassword.Text + "@" + textBoxHost.Text + textBoxHome.Text;
 			string FileZillaExec;
 			string FileZillaDir;
 			string FileZillaPath;
@@ -528,34 +528,53 @@ namespace KLaunch
 			panel1.Text = "Starting FTP client...";
 
 			// Filezilla release 3
-			FileZillaPath = "SOFTWARE\\Filezilla Client";
-			RegistryKey erreka;
+			FileZillaPath = @"SOFTWARE\WOW6432\Filezilla Client";
 			if (Environment.Is64BitOperatingSystem == true)
 			{
-				erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine , RegistryView.Registry64);
+				object FileZillaHow = RegistryView.Registry64;
 			}
 			else
 			{
-				//registryKey = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry32);
-				erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry32);
+				object FileZillaHow = RegistryView.Registry32;
 			}
-			erreka = erreka.OpenSubKey(FileZillaPath, false);
-			if (erreka is null)
+			var erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
+			// var erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64);
+			var FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
+			if (FileZillaKey is null)
+			{
+				// Filezilla release 3
+				FileZillaPath = @"SOFTWARE\Filezilla Client";
+				FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
+			}
+			else
+			{
+				FileZillaDir = (string)FileZillaKey.GetValue(null);
+			}
+			if (FileZillaKey is null)
 			{
 				// Filezilla release 2
-				FileZillaPath = "SOFTWARE\\Filezilla\\Install_dir";
-				erreka = erreka.OpenSubKey(FileZillaPath, false);
+				FileZillaPath = @"SOFTWARE\Filezilla\Install_dir";
+				FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
 			}
-			if (erreka is null)
-			{ FileZillaDir = "C:\\Program Files (x86)\\FileZilla FTP Client\\"; }
+			else
+			{
+				FileZillaDir = (string)FileZillaKey.GetValue(null);
+			}
+			if (FileZillaKey is null)
+			{
+				FileZillaDir = "C:\\Program Files\\FileZilla FTP Client\\";
+			}
+			else
+			{
+				FileZillaDir = (string)FileZillaKey.GetValue(null);
+			}
 
-			FileZillaDir = erreka.GetValue(null).ToString();
 			erreka.Close();
 
 			// TODO prepare parameters for sftp
 			//System.Diagnostics.Process.Start("C:\\Program Files (x86)\\FileZilla FTP Client\\filezilla.exe", arguments);
 
-			FileZillaExec = FileZillaDir + "\filezilla.exe";
+			FileZillaExec = FileZillaDir + "\\filezilla.exe";
 
 			System.Diagnostics.Process.Start(FileZillaExec, arguments);
 		}
