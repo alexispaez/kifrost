@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Win32;
 using System.CodeDom;
 using System.Net;
+using System.Security.AccessControl;
 
 namespace KLaunch
 {
@@ -524,25 +525,45 @@ namespace KLaunch
 			string FileZillaExec;
 			string FileZillaDir;
 			string FileZillaPath;
+			var FileZillaKey = (dynamic) null; 
 
 			panel1.Text = "Starting FTP client...";
 
 			// Filezilla release 3
-			FileZillaPath = @"SOFTWARE\WOW6432\Filezilla Client";
 			if (Environment.Is64BitOperatingSystem == true)
 			{
-				object FileZillaHow = RegistryView.Registry64;
+				FileZillaPath = @"SOFTWARE\WOW6432\Filezilla Client";
 			}
 			else
 			{
-				object FileZillaHow = RegistryView.Registry32;
+				FileZillaPath = @"SOFTWARE\Filezilla Client";
 			}
 			var erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
 			// var erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64);
-			var FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
+			try
+			{
+				FileZillaKey = erreka.OpenSubKey(FileZillaPath, RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				string ErrorMesg = "Unable to read Windows Registry" + ex;
+				MessageBox.Show(ErrorMesg);
+			}
 			if (FileZillaKey is null)
 			{
 				// Filezilla release 3
+				FileZillaPath = @"SOFTWARE\Filezilla Client";
+				FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
+			}
+			else
+			{
+				FileZillaDir = (string)FileZillaKey.GetValue(null);
+			}
+			
+			if (FileZillaKey is null)
+			{
+				// Check HKEY_CURRENT_USER
+				erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64);
 				FileZillaPath = @"SOFTWARE\Filezilla Client";
 				FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
 			}
@@ -653,7 +674,7 @@ namespace KLaunch
 			}
 			sPatchInfoc = "PATCHINFO:   " + HomeDir + textBoxHome.Text + "    " + sIPa + textBoxHost.Text + "    " + sLogin + textBoxUser.Text + "    " + sPwd + textBoxPassword.Text;
 			//Ask to ad $SCRIPT
-			if (MessageBox.Show("Add the file with the MS patch request?", " ", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+			if (MessageBox.Show("Add the file with the MS patch request?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
 			{
 				sPatchInfoc = sPatchInfoc + "  $SCRIPT=" + "MSProductList.xml";
 			}
@@ -676,7 +697,9 @@ namespace KLaunch
 		private void buttonPatchMS_Click(object sender, EventArgs e)
 		{
 			string messageBoxText = "Se abrirá un fichero que deberá rellenar con los productos MS o CS requeridos.";
-			string sFrom = "MSProductList.xml";
+			//Environment.UserDomainName + "\\" + Environment.UserName;
+			string RunUser = Environment.UserName;
+			string sFrom = "MSProductList_" + RunUser + ".xml";
 			string sDestTo;
 			int itries=0;
 			string sLine;
