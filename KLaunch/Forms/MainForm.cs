@@ -525,23 +525,24 @@ namespace KLaunch
 			string FileZillaExec;
 			string FileZillaDir;
 			string FileZillaPath;
-			var FileZillaKey = (dynamic) null; 
+			var FileZillaKey = (dynamic) null;
+			var erreka = (dynamic) null;
 
 			panel1.Text = "Starting FTP client...";
 
 			// Filezilla release 3
 			if (Environment.Is64BitOperatingSystem == true)
 			{
-				FileZillaPath = @"SOFTWARE\WOW6432\Filezilla Client";
+				FileZillaPath = @"SOFTWARE\WOW6432Node\Filezilla Client";
 			}
 			else
 			{
 				FileZillaPath = @"SOFTWARE\Filezilla Client";
 			}
-			var erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
 			// var erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64);
 			try
 			{
+				erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.LocalMachine, RegistryView.Registry64);
 				FileZillaKey = erreka.OpenSubKey(FileZillaPath, RegistryKeyPermissionCheck.ReadSubTree, System.Security.AccessControl.RegistryRights.ReadKey);
 			}
 			catch (UnauthorizedAccessException ex)
@@ -551,9 +552,23 @@ namespace KLaunch
 			}
 			if (FileZillaKey is null)
 			{
+				// 
+				MessageBox.Show(FileZillaPath, "No answer");
 				// Filezilla release 3
 				FileZillaPath = @"SOFTWARE\Filezilla Client";
-				FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
+				FileZillaKey = erreka.OpenSubKey(FileZillaPath, System.Security.AccessControl.RegistryRights.ReadKey);
+				if (FileZillaKey is null)
+				{
+					MessageBox.Show(FileZillaPath, "No answer");
+					// Filezilla release 2
+					erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64);
+					FileZillaPath = @"SOFTWARE\Filezilla\Install_dir";
+					FileZillaKey = erreka.OpenSubKey(FileZillaPath, System.Security.AccessControl.RegistryRights.ReadKey);
+				}
+				else
+				{
+					FileZillaDir = (string)FileZillaKey.GetValue(null);
+				}
 			}
 			else
 			{
@@ -565,7 +580,7 @@ namespace KLaunch
 				// Check HKEY_CURRENT_USER
 				erreka = RegistryKey.OpenBaseKey(Microsoft.Win32.RegistryHive.CurrentUser, RegistryView.Registry64);
 				FileZillaPath = @"SOFTWARE\Filezilla Client";
-				FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
+				FileZillaKey = erreka.OpenSubKey(FileZillaPath, System.Security.AccessControl.RegistryRights.ReadKey);
 			}
 			else
 			{
@@ -573,9 +588,11 @@ namespace KLaunch
 			}
 			if (FileZillaKey is null)
 			{
+				//
+				MessageBox.Show(FileZillaPath, "No answer");
 				// Filezilla release 2
 				FileZillaPath = @"SOFTWARE\Filezilla\Install_dir";
-				FileZillaKey = erreka.OpenSubKey(FileZillaPath, false);
+				FileZillaKey = erreka.OpenSubKey(FileZillaPath, System.Security.AccessControl.RegistryRights.ReadKey);
 			}
 			else
 			{
@@ -583,7 +600,8 @@ namespace KLaunch
 			}
 			if (FileZillaKey is null)
 			{
-				FileZillaDir = "C:\\Program Files\\FileZilla FTP Client\\";
+				MessageBox.Show("No answer at the end");
+				FileZillaDir = "C:\\Program Files (x86)\\FileZilla FTP Client\\";
 			}
 			else
 			{
@@ -679,7 +697,7 @@ namespace KLaunch
 				sPatchInfoc = sPatchInfoc + "  $SCRIPT=" + "MSProductList.xml";
 			}
 			//
-			panel1.Text = "Copiando información de parcheo al portapapeles";
+			panel1.Text = "Coping patch info to the clipboard";
 			Clipboard.SetData(DataFormats.Text, sPatchInfoc);
 			// Copied to clipboard
 			label4.Text = "Patch Information copied to clipboard.";
@@ -696,7 +714,7 @@ namespace KLaunch
 
 		private void buttonPatchMS_Click(object sender, EventArgs e)
 		{
-			string messageBoxText = "Se abrirá un fichero que deberá rellenar con los productos MS o CS requeridos.";
+			string messageBoxText = "You'll get a file open where you have to add the required MS o CS products.";
 			//Environment.UserDomainName + "\\" + Environment.UserName;
 			string RunUser = Environment.UserName;
 			string sFrom = "MSProductList_" + RunUser + ".xml";
@@ -804,7 +822,7 @@ namespace KLaunch
 			{
 				src.WriteLine(NewRec);
 			}
-			//src.close()
+			// src.close();
 			if (objWrite != null)
 				objWrite.Dispose();
 		}
