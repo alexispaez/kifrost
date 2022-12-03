@@ -40,13 +40,14 @@ namespace KLaunch
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.textPatchNotes = new System.Windows.Forms.TextBox();
 			this.buttonPatchMS = new System.Windows.Forms.Button();
 			this.buttonConManager = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.PatchInfo = new System.Windows.Forms.Button();
 			this.Country = new System.Windows.Forms.Label();
 			this.TLSBox = new System.Windows.Forms.CheckBox();
-			this.buttonSaveRec = new System.Windows.Forms.Button();
+			this.buttonSaveRecCon = new System.Windows.Forms.Button();
 			this.textIcon = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.numericSessions = new System.Windows.Forms.NumericUpDown();
@@ -84,7 +85,6 @@ namespace KLaunch
 			this.label2 = new System.Windows.Forms.Label();
 			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.pictureBoxLogo = new System.Windows.Forms.PictureBox();
-			this.textPatchNotes = new System.Windows.Forms.TextBox();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericSessions)).BeginInit();
@@ -111,7 +111,7 @@ namespace KLaunch
 			this.tabPage1.Controls.Add(this.PatchInfo);
 			this.tabPage1.Controls.Add(this.Country);
 			this.tabPage1.Controls.Add(this.TLSBox);
-			this.tabPage1.Controls.Add(this.buttonSaveRec);
+			this.tabPage1.Controls.Add(this.buttonSaveRecCon);
 			this.tabPage1.Controls.Add(this.textIcon);
 			this.tabPage1.Controls.Add(this.label3);
 			this.tabPage1.Controls.Add(this.numericSessions);
@@ -153,6 +153,14 @@ namespace KLaunch
 			this.tabPage1.Text = "Packs";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+			// 
+			// textPatchNotes
+			// 
+			this.textPatchNotes.Location = new System.Drawing.Point(325, 259);
+			this.textPatchNotes.Multiline = true;
+			this.textPatchNotes.Name = "textPatchNotes";
+			this.textPatchNotes.Size = new System.Drawing.Size(266, 108);
+			this.textPatchNotes.TabIndex = 42;
 			// 
 			// buttonPatchMS
 			// 
@@ -225,20 +233,20 @@ namespace KLaunch
 			this.TLSBox.UseVisualStyleBackColor = true;
 			this.TLSBox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
-			// buttonSaveRec
+			// buttonSaveRecCon
 			// 
-			this.buttonSaveRec.AccessibleDescription = "Save Connection";
-			this.buttonSaveRec.AccessibleName = "SaveConnection";
-			this.buttonSaveRec.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.buttonSaveRec.Image = ((System.Drawing.Image)(resources.GetObject("buttonSaveRec.Image")));
-			this.buttonSaveRec.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.buttonSaveRec.Location = new System.Drawing.Point(325, 119);
-			this.buttonSaveRec.Name = "buttonSaveRec";
-			this.buttonSaveRec.Size = new System.Drawing.Size(140, 23);
-			this.buttonSaveRec.TabIndex = 34;
-			this.buttonSaveRec.Text = "Save Connection";
-			this.buttonSaveRec.UseVisualStyleBackColor = true;
-			this.buttonSaveRec.Click += new System.EventHandler(this.buttonSaveRec_Click);
+			this.buttonSaveRecCon.AccessibleDescription = "Save Connection";
+			this.buttonSaveRecCon.AccessibleName = "SaveConnection";
+			this.buttonSaveRecCon.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.buttonSaveRecCon.Image = ((System.Drawing.Image)(resources.GetObject("buttonSaveRecCon.Image")));
+			this.buttonSaveRecCon.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.buttonSaveRecCon.Location = new System.Drawing.Point(325, 119);
+			this.buttonSaveRecCon.Name = "buttonSaveRecCon";
+			this.buttonSaveRecCon.Size = new System.Drawing.Size(140, 23);
+			this.buttonSaveRecCon.TabIndex = 34;
+			this.buttonSaveRecCon.Text = "Save Connection";
+			this.buttonSaveRecCon.UseVisualStyleBackColor = true;
+			this.buttonSaveRecCon.Click += new System.EventHandler(this.buttonSaveRec_Click);
 			// 
 			// textIcon
 			// 
@@ -607,14 +615,6 @@ namespace KLaunch
 			this.pictureBoxLogo.TabStop = false;
 			this.pictureBoxLogo.Click += new System.EventHandler(this.pictureBox1_Click);
 			// 
-			// textPatchNotes
-			// 
-			this.textPatchNotes.Location = new System.Drawing.Point(325, 259);
-			this.textPatchNotes.Multiline = true;
-			this.textPatchNotes.Name = "textPatchNotes";
-			this.textPatchNotes.Size = new System.Drawing.Size(266, 108);
-			this.textPatchNotes.TabIndex = 42;
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -648,7 +648,7 @@ namespace KLaunch
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.Label Country;
 		private System.Windows.Forms.CheckBox TLSBox;
-		private System.Windows.Forms.Button buttonSaveRec;
+		private System.Windows.Forms.Button buttonSaveRecCon;
 		private System.Windows.Forms.TextBox textIcon;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.NumericUpDown numericSessions;

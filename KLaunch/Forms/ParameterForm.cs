@@ -53,8 +53,8 @@ namespace KLaunch
 
             checkBoxMinimizeOnLaunch.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["MinimizeOnLaunch"]);
             checkBoxMinimizeToNotification.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["MinimizeToNotificationArea"]);
-
             checkBoxMinimizeToNotification.Enabled = checkBoxMinimizeOnLaunch.Checked;
+            checkBoxPatchFileType.Checked = Convert.ToBoolean(ConfigurationManager.AppSettings["PatchFileType"]);
         }
 
         private void buttonConnections_Click(object sender, EventArgs e)
@@ -103,6 +103,9 @@ namespace KLaunch
 
             if (Convert.ToBoolean(ConfigurationManager.AppSettings["MinimizeToNotificationArea"]) != checkBoxMinimizeToNotification.Checked)
                 config.AppSettings.Settings["MinimizeToNotificationArea"].Value = (checkBoxMinimizeToNotification.Checked == true ? "true" : "false");
+
+            if (Convert.ToBoolean(ConfigurationManager.AppSettings["PatchFileType"]) != checkBoxPatchFileType.Checked)
+                config.AppSettings.Settings["PatchFileType"].Value = (checkBoxPatchFileType.Checked == true ? "true" : "false");
 
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");

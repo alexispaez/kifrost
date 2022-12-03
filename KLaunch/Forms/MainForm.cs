@@ -40,7 +40,7 @@ namespace KLaunch
 		private System.Windows.Forms.MenuItem menuItemLaunch;
 		private System.Windows.Forms.MenuItem menuItemExit;
 		private int sessionsToOpen = 0;
-
+		
 		public MainForm()
 		{
 			//
@@ -121,7 +121,7 @@ namespace KLaunch
 				true));
 			actions.Add(new Action(
 				"Go to MS File Viewer",
-				"MS 00 General_utilities Keyloop_utilities MS_file_viewer",
+				"MS 00 General_utilities Autoline_utilities MS_file_viewer",
 				null,
 				false));
 			actions.Add(new Action(
@@ -225,7 +225,7 @@ namespace KLaunch
 			{
 				PatchInfo.Enabled = true;
 			}
-			buttonSaveRec.Enabled = true;
+			buttonSaveRecCon.Enabled = true;
 
 			SetNotes();
 		}
@@ -316,7 +316,7 @@ namespace KLaunch
 			if (TLSBox.Checked == false)
 				arguments = arguments + " ";
 			else
-				arguments = arguments + "-l";
+				arguments = arguments + " -l ";
 			// check Icon tex
 			if (textIcon.Text == "")
 				arguments = arguments + String.Format(" -P 1,1 ");
@@ -686,6 +686,7 @@ namespace KLaunch
 			string sLogin = "$LOGIN=";
 			string sPwd = "$PASSWORD=";
 			string sPatchInfoc;
+			string RunUser = Environment.UserName;
 			if (textBoxHome.Text == "")
 			{
 				MessageBox.Show("Missing HOME info");
@@ -694,7 +695,7 @@ namespace KLaunch
 			//Ask to ad $SCRIPT
 			if (MessageBox.Show("Add the file with the MS patch request?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
 			{
-				sPatchInfoc = sPatchInfoc + "  $SCRIPT=" + "MSProductList.xml";
+				sPatchInfoc = sPatchInfoc + "  $SCRIPT=" + "MSProductList" + RunUser + ".xml";
 			}
 			//
 			panel1.Text = "Coping patch info to the clipboard";
@@ -712,22 +713,45 @@ namespace KLaunch
 			System.Diagnostics.Process.Start(sURL);
 		}
 
+		public class Install
+		{
+			public string Module;
+			public string ProductID;
+			public string Sequence;
+			public string SubModule;
+			public string VersionMajor;
+			public string VersionMinor;
+		}
+
 		private void buttonPatchMS_Click(object sender, EventArgs e)
 		{
 			string messageBoxText = "You'll get a file open where you have to add the required MS o CS products.";
-			//Environment.UserDomainName + "\\" + Environment.UserName;
 			string RunUser = Environment.UserName;
-			string sFrom = "MSProductList_" + RunUser + ".xml";
+			string sFrom = "MSProductList_" + RunUser;
 			string sDestTo;
-			int itries=0;
+			int itries = 0;
 			string sLine;
-			string sequence;
-			string SubModule;
+			string sSequence;
+			string sSubModule;
 			string xmlLine;
 			string xmlFile;
+			string sPatchFileType;
+			string sLocalFile;
+			Boolean PatchFileType = false;
+			
 			AppDomain domain = AppDomain.CurrentDomain;
 
 			MessageBox.Show(messageBoxText);
+			sPatchFileType = ConfigurationManager.AppSettings["PatchFileType"];
+			if (sPatchFileType == "true")
+			{
+				PatchFileType = true;
+			}
+			else
+			{
+				PatchFileType = false;
+			}
+
 			//First delete previous file, if already present
 			if (File.Exists(@"ListMS.csv"))
 			{
@@ -738,46 +762,79 @@ namespace KLaunch
 			//Open file so that products could be added
 			System.Diagnostics.Process.Start(@"ListMS.csv").WaitForExit();
 
-			//Convert this file into an XML
-			File.Delete(sFrom);
-			xmlFile = domain.BaseDirectory + sFrom;
-			using (StreamWriter src = new StreamWriter(xmlFile))
+			if (PatchFileType)
 			{
-				StreamReader sr = new StreamReader(@"ListMS.csv");
-				sr.ReadLine();
-				while ((sLine = sr.ReadLine()) != null)
+				//Convert this file into an XML
+				sFrom = sFrom + ".xml";
+				File.Delete(sFrom);
+				xmlFile = domain.BaseDirectory + sFrom;
+				Install p = new Install();
+				using (StreamWriter src = new StreamWriter(xmlFile))
 				{
-					string[] MSProducts = sLine.Split(';');
-					//MSProducts[0] ==> Module
-					//MSProducts[1] ==> Product
-					//MSProducts[2] ==> Branch
-					//MSProducts[3] ==> Release
-					itries = itries + 1;
-					sequence = itries.ToString();
-					SubModule = MSProducts[1].Substring(0, 2);
-					xmlLine = "<Install Module=\"" + MSProducts[0] + "\"";
-					xmlLine = xmlLine + " ProductID=\"" + MSProducts[1] + "\"";
-					xmlLine = xmlLine + " Sequence=\"" + sequence + "\"";
-					xmlLine = xmlLine + " SubModule=\"" + SubModule + "\"";
-					xmlLine = xmlLine + " VersionMajor=\"" + MSProducts[2] + "\"";
-					xmlLine = xmlLine + " VersionMinor=\"" + MSProducts[3] + "\"";
-					xmlLine = xmlLine + "/>";
-					// Save Line
-					src.WriteLine(xmlLine);
+					StreamReader sr = new StreamReader(@"ListMS.csv");
+					sr.ReadLine();
+					while ((sLine = sr.ReadLine()) != null)
+					{
+						string[] MSProducts = sLine.Split(';');
+						//MSProducts[0] ==> Module
+						//MSProducts[1] ==> Product
+						//MSProducts[2] ==> Branch
+						//MSProducts[3] ==> Release
+						itries = itries + 1;
+						if (itries == 1)
+						{
+							//<?xml version="1.0" encoding="UTF-8"?> 
+							xmlLine = "<? xml version =" + "'1.0'" + "encoding = " + "'UTF-8'" + " ?>";
+							src.WriteLine(xmlLine);
+							xmlLine = "<Install>";
+							src.WriteLine(xmlLine);
+						}
+						sSequence = itries.ToString();
+						sSubModule = MSProducts[1].Substring(0, 2);
+						//p.Module = MSProducts[0];
+						//p.ProductID = MSProducts[1];
+						//p.Sequence = sSequence;
+						//p.SubModule = sSubModule;
+						//p.VersionMajor = MSProducts[2];
+						//p.VersionMinor = MSProducts[3];
+						//System.Xml.Serialization.XmlSerializer x = new System.Xml.Serialization.XmlSerializer(p.GetType());
+						//x.Serialize(src, p);
+						xmlLine = "<Module>" + MSProducts[0] + "</Module>";
+						xmlLine = xmlLine + "<ProductID>" + MSProducts[1] + "</ProductID>";
+						xmlLine = xmlLine + "<Sequence>" + sSequence + "</Sequence>";
+						xmlLine = xmlLine + "<SubModule>" + sSubModule + "</SubModule>";
+						xmlLine = xmlLine + "<VersionMajor>" + MSProducts[2] + "</VersionMajor>";
+						xmlLine = xmlLine + "<VersionMinor>" + MSProducts[3] + "</VersionMinor>";
+						// Save Line
+						src.WriteLine(xmlLine);
+
+					}
+					xmlLine = "</Install>";
+					src.WriteLine(xmlFile);
+					src.Close();
+					sr.Close();
 				}
-				sr.Close();
 			}
-			//End - create an file that will be an XML
-			// Upload this XML file
-			sDestTo = "ftp://" + textBoxHost.Text + textBoxHome.Text + "/" + sFrom;
+			else
+			{
+				sFrom = sFrom + ".csv";
+				System.IO.File.Copy("ListMS.csv", sFrom, true);
+			}
+			// Upload this whatever file
+			sDestTo = "ftp://" + textBoxHost.Text + "/"+ textBoxHome.Text + "/" + sFrom;
+			sLocalFile = domain.BaseDirectory + sFrom;
 			using (WebClient client = new WebClient())
-				{
-					client.Credentials = new NetworkCredential(textBoxUser.Text, textBoxPassword.Text);
-					client.UploadFile(sDestTo, WebRequestMethods.Ftp.UploadFile, sFrom);
-				}
-			//Now remove the local xml file
-			File.Delete(xmlFile);
+			{
+				client.Credentials = new NetworkCredential(textBoxUser.Text, textBoxPassword.Text);
+				client.UploadFile(sDestTo, WebRequestMethods.Ftp.UploadFile, sLocalFile);
+				// 2 - client.UploadFile(Path.Combine(sDestTo, Path.GetFileName(sLocalFile)), sLocalFile);
+				// 3 - client.UploadFile(new Uri(new Uri(sDestTo), Path.GetFileName(sLocalFile)),sLocalFile);
+			}
+			//Now remove the local whatever file
+			File.Delete(sFrom);
+			File.Delete(sLocalFile);
 		}
+			
 
 		private void buttonSaveRec_Click(object sender, EventArgs e)
 		{
