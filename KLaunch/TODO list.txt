@@ -1,8 +1,6 @@
-﻿General:
---------
-Create Git remote repository
-Create installer
-	Check for updates?
+﻿What's new:
+-----------
+Shortcut to MS File Viewer
 
 Enhancements:
 -------------
@@ -13,13 +11,11 @@ Scripts:
 
 Next version:
 -------------
-Script & Shorcuts
-	Separate shortcuts from scripts
-	Make Shortcuts customisable by the user
-	Make scripts customisable by the user
+Script execution;
+	Overhaul to make scripts customisable by the user
+	Revise all access modifiers in WinApi
 	Add progress form, thread and execution control with Pause/Stop/Restart	
 	Use process id for robustness
-	Revise all access modifiers in WinApi
 Send:
 	Ensure the active application window is in foreground and is correct
 
@@ -27,20 +23,25 @@ Connections list sorted by recent or frequent usage?
 
 Add custom buttons with shortcuts or scripts
 	Button to connection manager page
-	Button to connect to MSDB web page
+	Button to connect to Daisy
 	Button to open QA Excel
 	Other useful connections?
 Add parameters
 	Main picture path, with dynamic main picture loading
-	KClient paths from registry or select in the main form, Excel to override it
+	KClient paths from registry or select in the man form, Excel to override it
 	Why double back slash needed?
 	Add parameter for connections file editor
-Add Pomodoro concentration and resting features
+
 Nice to have:
 -------------
 Format Connection dropdown in columns
 	Use multicolumn example
-Use color in dropdown?
+
+General:
+--------
+Create Git remote repository
+Create installer
+	Check for updates?
 
 KCML Projects:
 --------------

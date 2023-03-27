@@ -22,9 +22,6 @@ namespace KLaunch
         public const uint WM_CHAR = 0x0102;
         // Button control messages
         public const uint BM_CLICK = 0x00F5;
-        // ShowWindow parameters
-        public const int SW_MAXIMIZE = 0x0003;
-        public const int SW_SHOW = 0x0005;
 
         // API imports
         [DllImport("User32.dll")]
@@ -80,8 +77,5 @@ namespace KLaunch
 
         [DllImport("User32.dll")]
         public static extern int SetForegroundWindow(int hWnd);
-
-        [DllImport("User32.dll")]
-        public static extern bool ShowWindow(int hWnd, int nCmdShow);
-    }
+	}
 }
